@@ -4,7 +4,6 @@
 
 USERNAME=${GITHUB_REPOSITORY%%/*}
 REPOSITORY=${GITHUB_REPOSITORY#*/}
-HOME="~/"
 
 ref_tmp=${GITHUB_REF#*/} ## throw away the first part of the ref (GITHUB_REF=refs/heads/master or refs/tags/2019/03/13)
 ref_type=${ref_tmp%%/*} ## extract the second element of the ref (heads or tags)
