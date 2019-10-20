@@ -1,15 +1,14 @@
 #!/bin/sh
 
 # Put GCP service account key from base64 to json on a file if specified.
-if [ -n "$GCLOUD_AUTH"]; then
-  echo "Setting up Google Cloud Registry Authentication"
+if [ -n ${GCLOUD_AUTH+set} ];
   echo "$GCLOUD_AUTH" | base64 -d > "$HOME"/gcloud-service-key.json
 else 
   echo "Not using Gogle Cloud Registry skipping auth"
 fi
 
 # If GCLOUD_AUTH is provided, then we setup registry url with project id
-if [ -n "$GCLOUD_AUTH" ]; then
+if [ -n ${GCLOUD_AUTH+set} ]; then
   DOCKER_REGISTRY_URL="$REGISTRY_URL/$GCLOUD_PROJECT_ID"
 else
   DOCKER_REGISTRY_URL="$REGISTRY_URL"
