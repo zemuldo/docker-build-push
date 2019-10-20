@@ -34,7 +34,7 @@ IMAGE_TAG=${DOCKER_IMAGE_TAG:-$GIT_TAG} ## use git ref value as docker image tag
 
 GCP_KEY=echo "$GIT_CRYPT_KEY" | base64 -d
 
-sh -c "cat "$HOME"/gcloud-service-key.json | docker login -u _json_key --password-stdin https://REGISTRY"
+sh -c "cat "$HOME"/gcloud-service-key.json | docker login -u _json_key --password-stdin https://$REGISTRY"
 
 sh -c "docker login -u _json_key -p $GCP_KEY https://$REGISTRY"
 
