@@ -5,6 +5,8 @@ echo "$2" | base64 -d > "$HOME"/gcloud-service-key.json
 
 echo $BASE_URL > .env.production
 
+echo $CI
+
 cat .env.production
 
 DOCKER_REGISTRY_URL="$1"
