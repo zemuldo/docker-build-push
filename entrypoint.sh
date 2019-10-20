@@ -4,7 +4,6 @@
 
 echo "$GIT_CRYPT_KEY" | base64 -d > "$HOME"/gcloud-service-key.json
 
-
 USERNAME=${GITHUB_REPOSITORY%%/*}
 REPOSITORY=${GITHUB_REPOSITORY#*/}
 
