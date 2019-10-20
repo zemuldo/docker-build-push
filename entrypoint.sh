@@ -4,6 +4,8 @@
 
 echo "$GIT_CRYPT_KEY" | base64 -d > "$HOME"/gcloud-service-key.json
 
+DOCKER_IMAGE_NAME="$3"
+DOCKER_IMAGE_TAG="$4"
 
 USERNAME=${GITHUB_REPOSITORY%%/*}
 REPOSITORY=${GITHUB_REPOSITORY#*/}
@@ -24,43 +26,31 @@ then
     GIT_TAG=${GIT_TAG}_${DOCKER_TAG_APPEND}
 fi
 
-TEST=${$3:="Default here"}
-
-echo "$TEST"
-echo "Next"
-echo $TEST
-
 REGISTRY=${DOCKER_REGISTRY_URL} ## use default Docker Hub as registry unless specified
 NAMESPACE=${DOCKER_NAMESPACE:-$USERNAME} ## use github username as docker namespace unless specified
-IMAGE_NAME$DOCKER_IMAGE_NAME:-$REPOSITORY ## use github repository name as docker image name unless specified
+IMAGE_NAME=${DOCKER_IMAGE_NAME:-$REPOSITORY} ## use github repository name as docker image name unless specified
 IMAGE_TAG=${DOCKER_IMAGE_TAG:-$GIT_TAG} ## use git ref value as docker image tag unless specified
 
-## login if needed
-if [ -n "${DOCKER_PASSWORD+set}" ]
-then
-  sh -c "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $REGISTRY"
-fi
+# ## build the image locally
+# sh -c "docker build -t $IMAGE_NAME ${*:-.}" ## pass in the build command from user input, otherwise build in default mode
 
-## build the image locally
-sh -c "docker build -t $IMAGE_NAME ${*:-.}" ## pass in the build command from user input, otherwise build in default mode
-
-## tag the image with registry and versions
-if [ -n "${REGISTRY}" ]
-then
-  REGISTRY_IMAGE="$REGISTRY/$NAMESPACE/$IMAGE_NAME"
-else
-  REGISTRY_IMAGE="$NAMESPACE/$IMAGE_NAME"
-fi
-# push all the tags to registry
-if [ -n "${DOCKER_IMAGE_TAG+set}" ]
-then
-  sh -c "docker tag $IMAGE_NAME $REGISTRY_IMAGE:$DOCKER_IMAGE_TAG"
-  sh -c "docker push $REGISTRY_IMAGE:$DOCKER_IMAGE_TAG"
-else
-  sh -c "docker tag $IMAGE_NAME $REGISTRY_IMAGE:$IMAGE_TAG"
-  sh -c "docker tag $IMAGE_NAME $REGISTRY_IMAGE:${GITHUB_SHA:0:7}"
-  sh -c "docker tag $IMAGE_NAME $REGISTRY_IMAGE:latest"
-  sh -c "docker push $REGISTRY_IMAGE:$IMAGE_TAG"
-  sh -c "docker push $REGISTRY_IMAGE:${GITHUB_SHA:0:7}"
-  sh -c "docker push $REGISTRY_IMAGE:latest"
-fi
+# ## tag the image with registry and versions
+# if [ -n "${REGISTRY}" ]
+# then
+#   REGISTRY_IMAGE="$REGISTRY/$NAMESPACE/$IMAGE_NAME"
+# else
+#   REGISTRY_IMAGE="$NAMESPACE/$IMAGE_NAME"
+# fi
+# # push all the tags to registry
+# if [ -n "${DOCKER_IMAGE_TAG+set}" ]
+# then
+#   sh -c "docker tag $IMAGE_NAME $REGISTRY_IMAGE:$DOCKER_IMAGE_TAG"
+#   sh -c "docker push $REGISTRY_IMAGE:$DOCKER_IMAGE_TAG"
+# else
+#   sh -c "docker tag $IMAGE_NAME $REGISTRY_IMAGE:$IMAGE_TAG"
+#   sh -c "docker tag $IMAGE_NAME $REGISTRY_IMAGE:${GITHUB_SHA:0:7}"
+#   sh -c "docker tag $IMAGE_NAME $REGISTRY_IMAGE:latest"
+#   sh -c "docker push $REGISTRY_IMAGE:$IMAGE_TAG"
+#   sh -c "docker push $REGISTRY_IMAGE:${GITHUB_SHA:0:7}"
+#   sh -c "docker push $REGISTRY_IMAGE:latest"
+# fi
