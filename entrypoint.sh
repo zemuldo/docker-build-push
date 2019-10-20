@@ -26,13 +26,13 @@ ref_value=${ref_tmp#*/} ## extract the third+ elements of the ref (master or 201
 
 ## if needed to filter the branch
 if [ -n "${BRANCH_FILTER+set}" ] && [ "$ref_value" != "$BRANCH_FILTER" ]
-then
+ then
   exit 78 ## exit neutral
 fi
 
 GIT_TAG=${ref_value//\//-} ## replace `/` with `-` in ref for docker tag requirement (master or 2019-03-13)
 if [ -n "${DOCKER_TAG_APPEND+set}" ] ## right append to tag if specified
-then
+ then
     GIT_TAG=${GIT_TAG}_${DOCKER_TAG_APPEND}
 fi
 
@@ -45,10 +45,12 @@ IMAGE_TAG=${DOCKER_IMAGE_TAG:-$GIT_TAG} ## use git ref value as docker image tag
 
 
 # Login Docker with GCP Service Account key or Docker username and password
-if [ -n ${GCLOUD_AUTH+set} ]; then
+if [ -n ${GCLOUD_AUTH+set} ]
+ then
   # Guide here https://cloud.google.com/container-registry/docs/advanced-authentication#gcloud_docker
   sh -c "cat "$HOME"/gcloud-service-key.json | docker login -u _json_key --password-stdin https://$REGISTRY"
-elif [ -n ${DOCKER_PASSWORD+set} ]; then
+elif [ -n ${DOCKER_PASSWORD+set} ]
+ then
   sh -c "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $REGISTRY"
 else 
   echo "Not docker authorization creteria provided. Skipping login"
