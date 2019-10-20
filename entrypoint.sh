@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# mapping of var from user input or default value
-
 # Put GCP service account key from base64 to json on a file.
 echo "$2" | base64 -d > "$HOME"/gcloud-service-key.json
 
