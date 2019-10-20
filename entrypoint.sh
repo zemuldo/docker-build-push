@@ -4,7 +4,7 @@
 
 echo "Registry URL $1"
 
-echo "GCP Auth $1"
+echo "GCP Auth $2"
 
 # USERNAME=${GITHUB_REPOSITORY%%/*}
 # REPOSITORY=${GITHUB_REPOSITORY#*/}
