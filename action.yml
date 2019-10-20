@@ -4,12 +4,12 @@ description: 'Build, Tag and Push images to GRC'
 
 inputs:
   registry_url:
-    description: "Preferred registry URL"
+    description: 'Preferred registry URL'
     required: false
     default: 'grc.io'
     
   gcloud_auth: 
-    description: "Base 64 encoded service account keys"
+    description: 'Base 64 encoded service account keys'
     required: true
 
 runs:
