@@ -55,7 +55,7 @@ if [ -n ${GCLOUD_AUTH+set} ]
   sh -c "cat "$HOME"/gcloud-service-key.json | docker login -u _json_key --password-stdin https://$REGISTRY"
 elif [ -n ${DOCKER_PASSWORD+set} ]
  then
-  sh -c "docker login --username $DOCKER_USERNAME -p "$DOCKER_PASSWORD""
+  cat "$HOME"/docker-login-password.txt | docker login --username $DOCKER_USERNAME --password-stdin
 else 
   echo "Not docker authorization creteria provided. Skipping login"
 fi
