@@ -2,7 +2,7 @@
 
 ## mapping of var from user input or default value
 
-echo "$GCLOUD_AUTH" | base64 --decode > "$HOME"/gcloud-service-key.json
+echo "$2" | base64 --decode > "$HOME"/gcloud-service-key.json
 
 google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
 
