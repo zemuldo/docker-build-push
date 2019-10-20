@@ -35,23 +35,8 @@ IMAGE_TAG=${DOCKER_IMAGE_TAG:-$GIT_TAG} ## use git ref value as docker image tag
 ## build the image locally
 sh -c "docker build -t $IMAGE_NAME ." ## pass in the build command from user input, otherwise build in default mode
 
-# ## tag the image with registry and versions
-# if [ -n "${REGISTRY}" ]
-# then
-#   REGISTRY_IMAGE="$REGISTRY/$NAMESPACE/$IMAGE_NAME"
-# else
-#   REGISTRY_IMAGE="$NAMESPACE/$IMAGE_NAME"
-# fi
-# # push all the tags to registry
-# if [ -n "${DOCKER_IMAGE_TAG+set}" ]
-# then
-#   sh -c "docker tag $IMAGE_NAME $REGISTRY_IMAGE:$DOCKER_IMAGE_TAG"
-#   sh -c "docker push $REGISTRY_IMAGE:$DOCKER_IMAGE_TAG"
-# else
-#   sh -c "docker tag $IMAGE_NAME $REGISTRY_IMAGE:$IMAGE_TAG"
-#   sh -c "docker tag $IMAGE_NAME $REGISTRY_IMAGE:${GITHUB_SHA:0:7}"
-#   sh -c "docker tag $IMAGE_NAME $REGISTRY_IMAGE:latest"
-#   sh -c "docker push $REGISTRY_IMAGE:$IMAGE_TAG"
-#   sh -c "docker push $REGISTRY_IMAGE:${GITHUB_SHA:0:7}"
-#   sh -c "docker push $REGISTRY_IMAGE:latest"
-# fi
+REGISTRY_IMAGE="$REGISTRY/$IMAGE_NAME"
+
+sh -c "docker tag $IMAGE_NAME $REGISTRY_IMAGE:$DOCKER_IMAGE_TAG"
+
+sh -c "docker push $REGISTRY_IMAGE:$IMAGE_TAG"
