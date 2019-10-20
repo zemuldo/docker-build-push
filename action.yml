@@ -3,14 +3,6 @@ name: 'Publish to GCR'
 description: 'Build, Tag and Push images to GCR'
 
 inputs:
-  registry_url:
-    description: 'Preferred registry URL'
-    required: false
-    default: 'grc.io'
-    
-  gcloud_auth: 
-    description: 'Base 64 encoded service account keys'
-    required: true
   image_name: 
     description: "Docker Image Name"
   image_tag:
@@ -20,7 +12,5 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args: 
-    - ${{ inputs.registry_url }}
-    - ${{ inputs.gcloud_auth }}
     - ${{ inputs.image_name }}
     - ${{ inputs.image_tag }}
