@@ -30,7 +30,7 @@ NAMESPACE=${DOCKER_NAMESPACE:-$USERNAME} ## use github username as docker namesp
 IMAGE_NAME=${DOCKER_IMAGE_NAME:-$REPOSITORY} ## use github repository name as docker image name unless specified
 IMAGE_TAG=${DOCKER_IMAGE_TAG:-$GIT_TAG} ## use git ref value as docker image tag unless specified
 
-GCP_KEY=echo "$2" | base64 -d
+GCP_KEY="$2" | base64 -d
 
 sh -c "docker login -u _json_key -p $GCP_KEY https://$REGISTRY"
 
