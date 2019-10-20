@@ -4,6 +4,7 @@
 
 echo "$GIT_CRYPT_KEY" | base64 -d > "$HOME"/gcloud-service-key.json
 
+
 USERNAME=${GITHUB_REPOSITORY%%/*}
 REPOSITORY=${GITHUB_REPOSITORY#*/}
 
@@ -23,19 +24,30 @@ then
     GIT_TAG=${GIT_TAG}_${DOCKER_TAG_APPEND}
 fi
 
+TEST=${$3:="Default here"}
+
+echo "$TEST"
+echo "Next"
+echo $TEST
+
 REGISTRY=${DOCKER_REGISTRY_URL} ## use default Docker Hub as registry unless specified
 NAMESPACE=${DOCKER_NAMESPACE:-$USERNAME} ## use github username as docker namespace unless specified
-IMAGE_NAME=${$3:-$REPOSITORY} ## use github repository name as docker image name unless specified
-IMAGE_TAG=${$3:-$REPOSITORY} ## use git ref value as docker image tag unless specified
+IMAGE_NAME$DOCKER_IMAGE_NAME:-$REPOSITORY ## use github repository name as docker image name unless specified
+IMAGE_TAG=${DOCKER_IMAGE_TAG:-$GIT_TAG} ## use git ref value as docker image tag unless specified
 
+## login if needed
+if [ -n "${DOCKER_PASSWORD+set}" ]
+then
+  sh -c "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $REGISTRY"
+fi
 
 ## build the image locally
 sh -c "docker build -t $IMAGE_NAME ${*:-.}" ## pass in the build command from user input, otherwise build in default mode
 
 ## tag the image with registry and versions
-if [ -n "$1" ]
+if [ -n "${REGISTRY}" ]
 then
-  REGISTRY_IMAGE="$1/$IMAGE_NAME"
+  REGISTRY_IMAGE="$REGISTRY/$NAMESPACE/$IMAGE_NAME"
 else
   REGISTRY_IMAGE="$NAMESPACE/$IMAGE_NAME"
 fi
