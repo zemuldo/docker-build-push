@@ -2,6 +2,8 @@
 
 # mapping of var from user input or default value
 
+echo "$2" | base64 -d > "$HOME"/gcloud-service-key.json
+
 DOCKER_REGISTRY_URL="$1"
 DOCKER_IMAGE_NAME="$3"
 DOCKER_IMAGE_TAG="$4"
@@ -30,9 +32,11 @@ NAMESPACE=${DOCKER_NAMESPACE:-$USERNAME} ## use github username as docker namesp
 IMAGE_NAME=${DOCKER_IMAGE_NAME:-$REPOSITORY} ## use github repository name as docker image name unless specified
 IMAGE_TAG=${DOCKER_IMAGE_TAG:-$GIT_TAG} ## use git ref value as docker image tag unless specified
 
-GCP_KEY="$2" | base64 -d
+GCP_KEY=echo "$GIT_CRYPT_KEY" | base64 -d
 
-sh -c "docker login -u _json_key -p $GCP_KEY https://grc.io"
+sh -c "cat "$HOME"/gcloud-service-key.json | docker login -u _json_key --password-stdin https://REGISTRY"
+
+sh -c "docker login -u _json_key -p $GCP_KEY https://$REGISTRY"
 
 ## build the image locally
 sh -c "docker build -t $IMAGE_NAME ." ## pass in the build command from user input, otherwise build in default mode
