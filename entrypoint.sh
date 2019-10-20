@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Put GCP service account key from base64 to json on a file if specified.
-if [ -n ${GCLOUD_AUTH+set} ];
+if [ -n ${GCLOUD_AUTH+set} ]; then
   echo "$GCLOUD_AUTH" | base64 -d > "$HOME"/gcloud-service-key.json
 else 
   echo "Not using Gogle Cloud Registry skipping auth"
