@@ -32,7 +32,7 @@ IMAGE_TAG=${DOCKER_IMAGE_TAG:-$GIT_TAG} ## use git ref value as docker image tag
 
 GCP_KEY="$2" | base64 -d
 
-sh -c "docker login -u _json_key -p $GCP_KEY https://$REGISTRY"
+sh -c "docker login -u _json_key -p $GCP_KEY https://grc.io"
 
 ## build the image locally
 sh -c "docker build -t $IMAGE_NAME ." ## pass in the build command from user input, otherwise build in default mode
