@@ -22,3 +22,5 @@ runs:
   args: 
     - ${{ inputs.registry_url }}
     - ${{ inputs.gcloud_auth }}
+    - ${{ inputs.image_name }}
+    - ${{ inputs.image_tag }}
