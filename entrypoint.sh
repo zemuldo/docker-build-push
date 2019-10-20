@@ -26,7 +26,7 @@ fi
 REGISTRY=${DOCKER_REGISTRY_URL} ## use default Docker Hub as registry unless specified
 NAMESPACE=${DOCKER_NAMESPACE:-$USERNAME} ## use github username as docker namespace unless specified
 IMAGE_NAME=${$3:-$REPOSITORY} ## use github repository name as docker image name unless specified
-IMAGE_TAG=${$4:-$GIT_TAG} ## use git ref value as docker image tag unless specified
+IMAGE_TAG=${$3:-$REPOSITORY} ## use git ref value as docker image tag unless specified
 
 
 ## build the image locally
