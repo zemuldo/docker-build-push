@@ -1,6 +1,6 @@
-name: 'Publish to GRC'
+name: 'Publish to GCR'
 
-description: 'Build, Tag and Push images to GRC'
+description: 'Build, Tag and Push images to GCR'
 
 inputs:
   registry_url:

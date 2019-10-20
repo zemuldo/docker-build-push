@@ -3,6 +3,10 @@
 # Put GCP service account key from base64 to json on a file.
 echo "$2" | base64 -d > "$HOME"/gcloud-service-key.json
 
+echo $BASE_URL > .env.production
+
+cat .env.production
+
 DOCKER_REGISTRY_URL="$1"
 DOCKER_IMAGE_NAME="$3"
 DOCKER_IMAGE_TAG="$4"
