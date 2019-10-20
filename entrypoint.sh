@@ -31,10 +31,10 @@ then
     GIT_TAG=${GIT_TAG}_${DOCKER_TAG_APPEND}
 fi
 
-REGISTRY=${$DOCKER_REGISTRY_URL} ## use default Docker Hub as registry unless specified
-NAMESPACE=${$DOCKER_NAMESPACE:-$USERNAME} ## use github username as docker namespace unless specified
-IMAGE_NAME=${$DOCKER_IMAGE_NAME:-$REPOSITORY} ## use github repository name as docker image name unless specified
-IMAGE_TAG=${$DOCKER_IMAGE_TAG:-$GIT_TAG} ## use git ref value as docker image tag unless specified
+REGISTRY=${DOCKER_REGISTRY_URL} ## use default Docker Hub as registry unless specified
+NAMESPACE=${DOCKER_NAMESPACE:-$USERNAME} ## use github username as docker namespace unless specified
+IMAGE_NAME=${DOCKER_IMAGE_NAME:-$REPOSITORY} ## use github repository name as docker image name unless specified
+IMAGE_TAG=${DOCKER_IMAGE_TAG:-$GIT_TAG} ## use git ref value as docker image tag unless specified
 
 echo "$REGISTRY"
 echo "$IMAGE_NAME"
