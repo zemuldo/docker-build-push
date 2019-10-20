@@ -1,3 +1,3 @@
-# grc-docker-build-push
+# docker-build-push
 
-GitHub action to build, tag and push images to Google Cloud Container Registry using Google Cloud SDK
+GitHub action to build, tag and push images to Registry using Google Cloud SDK

@@ -1,6 +1,6 @@
-name: 'Publish to GCR'
+name: 'Publish to Registry'
 
-description: 'Build, Tag and Push images to GCR'
+description: 'Build, Tag and Push images to Registry'
 
 inputs:
   image_name: 
