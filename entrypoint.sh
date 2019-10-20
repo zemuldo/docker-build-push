@@ -48,7 +48,7 @@ IMAGE_TAG=${DOCKER_IMAGE_TAG:-$GIT_TAG} ## use git ref value as docker image tag
 if [ -n ${GCLOUD_AUTH+set} ]; then
   # Guide here https://cloud.google.com/container-registry/docs/advanced-authentication#gcloud_docker
   sh -c "cat "$HOME"/gcloud-service-key.json | docker login -u _json_key --password-stdin https://$REGISTRY"
-elif then
+elif [ -n ${DOCKER_PASSWORD+set} ]; then
   sh -c "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $REGISTRY"
 else 
   echo "Not docker authorization creteria provided. Skipping login"
@@ -59,11 +59,14 @@ fi
 sh -c "docker build -t $IMAGE_NAME ." ## pass in the build command from user input, otherwise build in default mode
 
 # If Docker name name space is pecified add to registry
-if [ -n ${REGISTRY+set} ] && [ -n ${DOCKER_NAMESPACE+set}] then
+if [ -n ${REGISTRY+set} ] && [ -n ${DOCKER_NAMESPACE+set}]
+ then
   REGISTRY_IMAGE="$REGISTRY/$NAMESPACE/$IMAGE_NAME"
-elif [ -n ${DOCKER_NAMESPACE+set}] then
+elif [ -n ${DOCKER_NAMESPACE+set}] 
+ then
   REGISTRY_IMAGE="$NAMESPACE/$IMAGE_NAME"
-elif  [ -n ${REGISTRY+set} ] && [ -n ${GCLOUD_AUTH+set}] then 
+elif  [ -n ${REGISTRY+set} ] && [ -n ${GCLOUD_AUTH+set}]
+ then 
   REGISTRY_IMAGE="$REGISTRY/$IMAGE_NAME"
 else 
   REGISTRY_IMAGE="$NAMESPACE/$IMAGE_NAME"
