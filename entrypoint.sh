@@ -1,8 +1,10 @@
-!/bin/sh
+#!/bin/sh
 
-## mapping of var from user input or default value
+# mapping of var from user input or default value
 
 echo "$2" | base64 --decode > "$HOME"/gcloud-service-key.json
+
+google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
 
 USERNAME=${GITHUB_REPOSITORY%%/*}
 REPOSITORY=${GITHUB_REPOSITORY#*/}
