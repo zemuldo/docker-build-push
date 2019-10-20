@@ -2,9 +2,9 @@
 
 ## mapping of var from user input or default value
 
-sh -c "echo "Registry URL $1""
+echo "Registry URL $1"
 
-sh -c "echo "Auth $2""
+echo "GCP Auth $1"
 
 # USERNAME=${GITHUB_REPOSITORY%%/*}
 # REPOSITORY=${GITHUB_REPOSITORY#*/}
