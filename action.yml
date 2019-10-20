@@ -16,3 +16,5 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args: 
+    - ${{ inputs.registry_url }}
+    - ${{ inputs.gcloud_auth }}
