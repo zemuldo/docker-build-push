@@ -1,10 +1,14 @@
 #!/bin/sh
 
 # Put GCP service account key from base64 to json on a file if specified.
-if [ -n ${GCLOUD_AUTH+set} ]; then
+if [ -n ${GCLOUD_AUTH+set} ]
+ then
   echo "$GCLOUD_AUTH" | base64 -d > "$HOME"/gcloud-service-key.json
-else 
-  echo "Not using Gogle Cloud Registry skipping auth"
+elif [ -n ${DOCKER_PASSWORD+set} ]
+  then 
+   echo "$DOCKER_PASSWORD" > "$HOME"/docker-login_password.text
+else
+  echo "Not auth credentials specified"
 fi
 
 # If GCLOUD_AUTH is provided, then we setup registry url with project id
@@ -51,7 +55,7 @@ if [ -n ${GCLOUD_AUTH+set} ]
   sh -c "cat "$HOME"/gcloud-service-key.json | docker login -u _json_key --password-stdin https://$REGISTRY"
 elif [ -n ${DOCKER_PASSWORD+set} ]
  then
-  sh -c "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $REGISTRY"
+  sh -c "cat "$HOME"/docker-login_password.text | docker login --username $DOCKER_USERNAME --password-stdin"
 else 
   echo "Not docker authorization creteria provided. Skipping login"
 fi
@@ -79,3 +83,13 @@ sh -c "docker tag $IMAGE_NAME $REGISTRY_IMAGE:$DOCKER_IMAGE_TAG"
 
 # Push image to registry
 sh -c "docker push $REGISTRY_IMAGE:$IMAGE_TAG"
+
+if [ -n ${GCLOUD_AUTH+set} ]
+ then
+  rm  "$HOME"/gcloud-service-key.json
+elif [ -n ${DOCKER_PASSWORD+set} ]
+  then 
+   rm "$HOME"/docker-login_password.text
+else
+  echo "No cedentials were set"
+fi
