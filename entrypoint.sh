@@ -36,14 +36,25 @@ then
     GIT_TAG=${GIT_TAG}_${DOCKER_TAG_APPEND}
 fi
 
+
+
 REGISTRY=${DOCKER_REGISTRY_URL} ## use default Docker Hub as registry unless specified
 NAMESPACE=${DOCKER_NAMESPACE:-$USERNAME} ## use github username as docker namespace unless specified
 IMAGE_NAME=${DOCKER_IMAGE_NAME:-$REPOSITORY} ## use github repository name as docker image name unless specified
 IMAGE_TAG=${DOCKER_IMAGE_TAG:-$GIT_TAG} ## use git ref value as docker image tag unless specified
 
-# Login Docker with GCP Service Account key
-# Guide here https://cloud.google.com/container-registry/docs/advanced-authentication#gcloud_docker
-sh -c "cat "$HOME"/gcloud-service-key.json | docker login -u _json_key --password-stdin https://$REGISTRY"
+
+# Login Docker with GCP Service Account key or Docker username and password
+if [ -n ${GCLOUD_AUTH+set} ]; then
+  # Guide here https://cloud.google.com/container-registry/docs/advanced-authentication#gcloud_docker
+  sh -c "cat "$HOME"/gcloud-service-key.json | docker login -u _json_key --password-stdin https://$REGISTRY"
+elif 
+  sh -c "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $REGISTRY"
+else 
+  echo "Not docker authorization creteria provided. Skipping login"
+fi
+
+
 
 # Build Docker Image Locally with provided Image Name
 sh -c "docker build -t $IMAGE_NAME ." ## pass in the build command from user input, otherwise build in default mode
