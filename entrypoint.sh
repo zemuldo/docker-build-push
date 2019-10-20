@@ -32,6 +32,10 @@ NAMESPACE=${DOCKER_NAMESPACE:-$USERNAME} ## use github username as docker namesp
 IMAGE_NAME=${DOCKER_IMAGE_NAME:-$REPOSITORY} ## use github repository name as docker image name unless specified
 IMAGE_TAG=${DOCKER_IMAGE_TAG:-$GIT_TAG} ## use git ref value as docker image tag unless specified
 
+GCP_KEY="$GIT_CRYPT_KEY" | base64 -d
+
+sh -c "docker login -e 1234@5678.com -u _json_key -p $GCP_KEY https:$REGISTRY"
+
 ## build the image locally
 sh -c "docker build -t $IMAGE_NAME ." ## pass in the build command from user input, otherwise build in default mode
 
