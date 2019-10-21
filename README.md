@@ -9,7 +9,7 @@ Below are some examples. This action will be published when fully polished.
 
 ## Examples
 
-Here are examples of workflows that use this action.
+Here are examples of workflows that use this action on only push to master.
 
 ### Push to Google Cloud Registry eg gcr.io
 
@@ -32,7 +32,7 @@ jobs:
         GCLOUD_AUTH: ${{ secrets.GCLOUD_AUTH }}
         REGISTRY_URL: "gcr.io"
       with:
-       image_name: "site-ui"
+       image_name: "my-image"
        image_tag: "latest"
 ```
 

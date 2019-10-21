@@ -4,6 +4,7 @@
 if [ -n "$GCLOUD_AUTH" ]
  then
   echo "$GCLOUD_AUTH" | base64 -d > "$HOME"/gcloud-service-key.json
+# Put Docker Hub password to a text file if specified.
 elif [ -n "$DOCKER_PASSWORD"$ ]
   then
    echo "$DOCKER_PASSWORD" > "$HOME"/docker-login_password.text
