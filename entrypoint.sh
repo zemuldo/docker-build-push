@@ -3,11 +3,9 @@
 # Put GCP service account key from base64 to json on a file if specified.
 if [ -n "$GCLOUD_AUTH" ]
  then
-  echo "GOOGLE"
   echo "$GCLOUD_AUTH" | base64 -d > "$HOME"/gcloud-service-key.json
 elif [ -n "$DOCKER_PASSWORD"$ ]
   then
-  echo "DOCKER" 
    echo "$DOCKER_PASSWORD" > "$HOME"/docker-login_password.text
 else
   echo "Not auth credentials specified"
@@ -65,7 +63,7 @@ fi
 
 
 # Build Docker Image Locally with provided Image Name
-# sh -c "docker build -t $IMAGE_NAME ." ## pass in the build command from user input, otherwise build in default mode
+sh -c "docker build -t $IMAGE_NAME ." ## pass in the build command from user input, otherwise build in default mode
 
 # If Docker name name space is pecified add to registry
 if [ -n "$GCLOUD_AUTH" ]
