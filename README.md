@@ -1,9 +1,15 @@
 # docker-build-push
 
-GitHub action to build, tag and push images to Registry using Google Cloud SDK
+GitHub action to build, tag and push images to Registry.
+You can use this image with currently `docker.io` or any of Google Cloud Registries like `gcr.io`.
 
+Configuration takes two inputs and environmental variable configurations of  your repository.
+
+Below are some examples. This action will be published when fully polished.
 
 ## Examples
+
+Here are examples of workflows that use this action.
 
 ### Push to Google Cloud Registry eg gcr.io
 
