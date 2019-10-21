@@ -6,7 +6,7 @@ if [ -n ${GCLOUD_AUTH+set} ]
   echo "$GCLOUD_AUTH" | base64 -d > "$HOME"/gcloud-service-key.json
 elif [ -n ${DOCKER_PASSWORD+set} ]
   then 
-   echo "$DOCKER_PASSWORD" > "$HOME"/docker-login-password.txt
+   echo "$DOCKER_PASSWORD" > "$HOME"/docker-login_password.text
 else
   echo "Not auth credentials specified"
 fi
@@ -55,7 +55,7 @@ if [ -n ${GCLOUD_AUTH+set} ]
   sh -c "cat "$HOME"/gcloud-service-key.json | docker login -u _json_key --password-stdin https://$REGISTRY"
 elif [ -n ${DOCKER_PASSWORD+set} ]
  then
-  sh -c "cat "$HOME"/docker-login-password.txt | docker login --username $DOCKER_USERNAME --password-stdin"
+  sh -c "cat "$HOME"/docker-login_password.text | docker login --username $DOCKER_USERNAME --password-stdin"
 else 
   echo "Not docker authorization creteria provided. Skipping login"
 fi
@@ -65,12 +65,15 @@ fi
 sh -c "docker build -t $IMAGE_NAME ." ## pass in the build command from user input, otherwise build in default mode
 
 # If Docker name name space is pecified add to registry
-if [ -n ${GCLOUD_AUTH+set}]
+if [ -n ${REGISTRY+set} ] && [ -n ${DOCKER_NAMESPACE+set}]
  then
-  REGISTRY_IMAGE="$REGISTRY/$IMAGE_NAME"
-elif  [ -n ${DOCKER_NAMESPACE+set} ] && [ -n ${REGISTRY_URL+set}]
+  REGISTRY_IMAGE="$REGISTRY/$NAMESPACE/$IMAGE_NAME"
+elif [ -n ${DOCKER_NAMESPACE+set}] 
+ then
+  REGISTRY_IMAGE="$NAMESPACE/$IMAGE_NAME"
+elif  [ -n ${REGISTRY+set} ] && [ -n ${GCLOUD_AUTH+set}]
  then 
-  REGISTRY_IMAGE="$REGISTRY/$DOCKER_NAMESPACE/$IMAGE_NAME"
+  REGISTRY_IMAGE="$REGISTRY/$IMAGE_NAME"
 else 
   REGISTRY_IMAGE="$NAMESPACE/$IMAGE_NAME"
 fi
@@ -80,13 +83,3 @@ sh -c "docker tag $IMAGE_NAME $REGISTRY_IMAGE:$DOCKER_IMAGE_TAG"
 
 # Push image to registry
 sh -c "docker push $REGISTRY_IMAGE:$IMAGE_TAG"
-
-if [ -n ${GCLOUD_AUTH+set} ]
- then
-  rm  "$HOME"/gcloud-service-key.json
-elif [ -n ${DOCKER_PASSWORD+set} ]
-  then 
-   rm "$HOME"/docker-login_password.text
-else
-  echo "No cedentials were set"
-fi
