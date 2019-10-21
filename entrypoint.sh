@@ -62,13 +62,15 @@ fi
 
 
 # Build Docker Image Locally with provided Image Name
-sh -c "docker build -t $IMAGE_NAME ." ## pass in the build command from user input, otherwise build in default mode
+#sh -c "docker build -t $IMAGE_NAME ." ## pass in the build command from user input, otherwise build in default mode
 
 # If Docker name name space is pecified add to registry
 if [ -n ${GCLOUD_AUTH+set} ]
  then
+  echo "XXXXXXXXX GOOGLE CLOUD REGISTRY"
   REGISTRY_IMAGE="$REGISTRY/$IMAGE_NAME"
 else 
+  echo "XXXXXXXXX DCOKER CLOUD REGISTRY"
   REGISTRY_IMAGE="$NAMESPACE/$IMAGE_NAME"
 fi
 
