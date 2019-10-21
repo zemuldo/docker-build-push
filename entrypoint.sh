@@ -65,14 +65,8 @@ fi
 sh -c "docker build -t $IMAGE_NAME ." ## pass in the build command from user input, otherwise build in default mode
 
 # If Docker name name space is pecified add to registry
-if [ -n ${REGISTRY+set} ] && [ -n ${DOCKER_NAMESPACE+set}]
+if [ -n ${GCLOUD_AUTH+set} ]
  then
-  REGISTRY_IMAGE="$REGISTRY/$NAMESPACE/$IMAGE_NAME"
-elif [ -n ${DOCKER_NAMESPACE+set}] 
- then
-  REGISTRY_IMAGE="$NAMESPACE/$IMAGE_NAME"
-elif  [ -n ${REGISTRY+set} ] && [ -n ${GCLOUD_AUTH+set}]
- then 
   REGISTRY_IMAGE="$REGISTRY/$IMAGE_NAME"
 else 
   REGISTRY_IMAGE="$NAMESPACE/$IMAGE_NAME"
