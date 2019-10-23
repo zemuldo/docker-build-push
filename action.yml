@@ -1,4 +1,6 @@
-name: 'Publish to Registry'
+name: 'Docker Build Tag Publish'
+
+author: 'Danstan Onyango - Zemuldo'
 
 description: 'Build, Tag and Push images to Registry'
 
@@ -14,3 +16,7 @@ runs:
   args: 
     - ${{ inputs.image_name }}
     - ${{ inputs.image_tag }}
+
+branding:
+  icon: 'upload-cloud'  
+  color: 'blue'

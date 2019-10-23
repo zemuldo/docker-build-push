@@ -1,4 +1,4 @@
-# docker-build-push
+# Docker Build Tag Publish
 
 GitHub action to build, tag and push images to Registry.
 You can use this image with currently `docker.io` or any of Google Cloud Registries like `gcr.io`.
