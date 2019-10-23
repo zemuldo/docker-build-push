@@ -1,4 +1,4 @@
-name: 'Docker Build Tag Publish'
+name: 'Docker Login Build Tag Push'
 
 author: 'Danstan Onyango - Zemuldo'
 
