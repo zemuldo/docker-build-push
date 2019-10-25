@@ -63,3 +63,7 @@ jobs:
        image_name: "my-image"
        image_tag: "latest"
 ```
+
+## TODO
+
+- Add login to `docker.pkg.github.com`
